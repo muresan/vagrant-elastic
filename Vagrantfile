@@ -6,9 +6,9 @@ Vagrant.configure(2) do |config|
   config.ssh.pty = true
 
   hosts = {
-    'el1' => { 'ip' => '192.168.123.101', 'cpus' => 1, 'memory' => 1024 },
-    'el2' => { 'ip' => '192.168.123.102', 'cpus' => 1, 'memory' => 1024 },
-    'el3' => { 'ip' => '192.168.123.103', 'cpus' => 1, 'memory' => 1024 }
+    'el1' => { 'ip' => '192.168.124.101', 'cpus' => 1, 'memory' => 1024 },
+    'el2' => { 'ip' => '192.168.124.102', 'cpus' => 1, 'memory' => 1024 },
+    'el3' => { 'ip' => '192.168.124.103', 'cpus' => 1, 'memory' => 1024 }
   }
 
   hosts.each do |host, params|
@@ -19,8 +19,8 @@ Vagrant.configure(2) do |config|
 
       host_config.vm.provider :libvirt do |libvirt|
         libvirt.driver = 'kvm'
-        libvirt.management_network_name = 'vagrant'
-        libvirt.management_network_address = '192.168.123.0/24'
+        libvirt.management_network_name = 'private_network'
+        libvirt.management_network_address = '192.168.124.0/24'
         libvirt.memory = params['memory']
         libvirt.cpus = params['cpus']
       end

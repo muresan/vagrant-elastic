@@ -16,17 +16,17 @@ node /^el\d+/ {
       'cluster.name'             => 'es-cluster',
       'index.number_of_replicas' => '1',
       'index.number_of_shards'   => '3',
-      'network.host'             => $::ipaddress,
+      'network.host'             => $::ipaddress_eth1,
       'http.cors.enabled'        => true,
+      'node.data'                => true,
+      'node.master'              => true,
+      'discovery.zen.ping.multicast.enabled' => false,
+      'discovery.zen.ping.unicast.hosts' => '["192.168.124.101"]',
     }
   }
 
   elasticsearch::instance { "es01":
     datadir        => "/var/lib/es-data-$hostname",
-  }
-
-  elasticsearch::instance { "$hostname":
-    ensure         => absent
   }
 
   elasticsearch::template { "template":
