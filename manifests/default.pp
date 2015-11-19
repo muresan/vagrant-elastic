@@ -36,6 +36,10 @@ node /^el\d+/ {
   #  port           => 9200
   }
 
+  elasticsearch::plugin { 'mobz/elasticsearch-head':
+    instances      => 'es01'
+  }
+
   elasticsearch::plugin { 'royrusso/elasticsearch-hq/v2.0.3':
     instances      => 'es01'
   }
