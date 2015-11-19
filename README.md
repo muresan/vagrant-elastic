@@ -1,12 +1,11 @@
 # vagrant-elastic
 ElasticSearch cluster of 3 machines started by Vagrant
 
-    [cata@lemon vagrant-elastic (master)]$ puppet module install -i . elasticsearch-elasticsearch
-    Notice: Preparing to install into /home/cata/vagrant-elastic ...
-    Notice: Downloading from https://forgeapi.puppetlabs.com ...
-    Notice: Installing -- do not interrupt ...
-    /home/cata/vagrant-elastic
-    └─┬ elasticsearch-elasticsearch (v0.9.9)
-      ├── ceritsc-yum (v0.9.6)
-      ├── puppetlabs-apt (v1.8.0)
-      └── puppetlabs-stdlib (v4.9.0)
+Configuration of the cluster is via https://forge.puppetlabs.com/elasticsearch/elasticsearch puppet module
+Also there are 2 GUIs installed:
+
+* https://github.com/lmenezes/elasticsearch-kopf
+* https://github.com/royrusso/elasticsearch-HQ
+
+The cluster is set to use the 1st node for unicast discovery and not to use multicast
+
