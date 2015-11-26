@@ -8,7 +8,8 @@ Vagrant.configure(2) do |config|
   hosts = {
     'el1' => { 'ip' => '192.168.124.101', 'cpus' => 1, 'memory' => 1024 },
     'el2' => { 'ip' => '192.168.124.102', 'cpus' => 1, 'memory' => 1024 },
-    'el3' => { 'ip' => '192.168.124.103', 'cpus' => 1, 'memory' => 1024 }
+    'el3' => { 'ip' => '192.168.124.103', 'cpus' => 1, 'memory' => 1024 },
+    'ls1' => { 'ip' => '192.168.124.121', 'cpus' => 1, 'memory' => 1024 },
   }
 
   hosts.each do |host, params|

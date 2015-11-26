@@ -50,4 +50,15 @@ node /^el\d+/ {
 
 }
 
+node /^ls\d+/ {
+  package { "vim-enhanced": ensure => 'installed', }
+  package { "git"         : ensure => 'installed', }
+  package { "acpid"       : ensure => 'installed', }
+  package { "nss"         : ensure => 'latest',    }
 
+  class { 'logstash':
+    manage_repo  => true,
+    repo_version => '1.4'
+  }
+
+}
