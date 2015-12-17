@@ -11,7 +11,7 @@ node /^el\d+/ {
   class { 'elasticsearch': 
     manage_repo    => true,
     java_install   => true,
-    repo_version   => '2.0',
+    repo_version   => '2.x',
     config => {
       'cluster.name'             => 'es-cluster',
       'index.number_of_replicas' => '1',
