@@ -7,6 +7,13 @@ node /^el\d+/ {
   package { "acpid"       : ensure => 'installed', }
   package { "nss"         : ensure => 'latest',    }
 
+  yumrepo { 'consul':
+    ensure   => present,
+    baseurl  => 'http://brain.adworks.ro/consul-repo',
+    enabled  => true,
+    gpgcheck => 0,
+    descr    => 'Consul and Consul-UI RPM repo',
+  }  
 
   class { 'elasticsearch': 
     manage_repo    => true,
@@ -55,6 +62,14 @@ node /^ls\d+/ {
   package { "git"         : ensure => 'installed', }
   package { "acpid"       : ensure => 'installed', }
   package { "nss"         : ensure => 'latest',    }
+
+  yumrepo { 'consul':
+    ensure   => present,
+    baseurl  => 'http://brain.adworks.ro/consul-repo/$releasever',
+    enabled  => true,
+    gpgcheck => 0,
+    descr    => 'Consul and Consul-UI RPM repo',
+  }
 
   class { 'logstash':
     manage_repo  => true,
