@@ -7,13 +7,34 @@ node /^el\d+/ {
   package { "acpid"       : ensure => 'installed', }
   package { "nss"         : ensure => 'latest',    }
 
+  package { "consul":
+    ensure  => 'installed',
+    require => Yumrepo["consul"],
+  }
+
   yumrepo { 'consul':
     ensure   => present,
-    baseurl  => 'http://brain.adworks.ro/consul-repo',
+    baseurl  => 'http://brain.adworks.ro/consul-repo/$releasever/',
     enabled  => true,
     gpgcheck => 0,
     descr    => 'Consul and Consul-UI RPM repo',
-  }  
+  }
+
+  class { 'consul':
+    install_method => 'none',
+    init_style     => false,
+    config_hash => {
+      'bootstrap_expect'   => 3,
+      'data_dir'           => '/var/lib/consul',
+      'datacenter'         => 'dc1',
+      'log_level'          => 'INFO',
+      'server'             => true,
+      'bind_addr'          => $ipaddress_eth1,
+      'rejoin_after_leave' => true,
+      'start_join'         => ["192.168.124.101","192.168.124.102","192.168.124.103"],
+    },
+    require  => Package['consul'],
+  }
 
   class { 'elasticsearch': 
     manage_repo    => true,
@@ -63,12 +84,32 @@ node /^ls\d+/ {
   package { "acpid"       : ensure => 'installed', }
   package { "nss"         : ensure => 'latest',    }
 
+  package { "consul":
+    ensure  => 'installed',
+    require => Yumrepo["consul"],
+  }
+
   yumrepo { 'consul':
     ensure   => present,
     baseurl  => 'http://brain.adworks.ro/consul-repo/$releasever',
     enabled  => true,
     gpgcheck => 0,
     descr    => 'Consul and Consul-UI RPM repo',
+  }
+
+  class { 'consul':
+    install_method => 'none',
+    init_style     => false,
+    config_hash => {
+      'data_dir'           => '/var/lib/consul',
+      'datacenter'         => 'dc1',
+      'log_level'          => 'INFO',
+      'server'             => false,
+      'bind_addr'          => $ipaddress_eth1,
+      'rejoin_after_leave' => true,
+      'start_join'         => ["192.168.124.101","192.168.124.102","192.168.124.103"],
+    },
+    require  => Package['consul'],
   }
 
   class { 'logstash':
