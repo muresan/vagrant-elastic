@@ -31,7 +31,7 @@ node /^el\d+/ {
       'server'             => true,
       'bind_addr'          => $ipaddress_eth1,
       'rejoin_after_leave' => true,
-      'start_join'         => ["192.168.124.101","192.168.124.102","192.168.124.103"],
+      'start_join'         => ["10.42.0.101","10.42.0.102","10.42.0.103"],
     },
     require  => Package['consul'],
   }
@@ -49,7 +49,7 @@ node /^el\d+/ {
       'node.data'                => true,
       'node.master'              => true,
       'discovery.zen.ping.multicast.enabled' => false,
-      'discovery.zen.ping.unicast.hosts' => '["192.168.124.101"]',
+      'discovery.zen.ping.unicast.hosts' => '["10.42.0.101"]',
     }
   }
 
@@ -107,7 +107,7 @@ node /^ls\d+/ {
       'server'             => false,
       'bind_addr'          => $ipaddress_eth1,
       'rejoin_after_leave' => true,
-      'start_join'         => ["192.168.124.101","192.168.124.102","192.168.124.103"],
+      'start_join'         => ["10.42.0.101","10.42.0.102","10.42.0.103"],
     },
     require  => Package['consul'],
   }
