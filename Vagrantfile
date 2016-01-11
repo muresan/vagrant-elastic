@@ -31,11 +31,6 @@ Vagrant.configure(2) do |config|
         sudo service iptables stop
         sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
         sudo yum -y install puppet
-		#Work around to java  version required for elastic. 
-		#wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-linux-x64.rpm"
-		#sudo yum localinstall jdk-8u65-linux-x64.rpm -y
-		#sudo yum localinstall /vagrant/jdk-8u65-linux-x64.rpm -y
-		#sudo rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
       SHELL
 
       host_config.vm.provision :puppet do |puppet|

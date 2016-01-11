@@ -11,7 +11,10 @@ node /^el\d+/ {
     ensure  => 'installed',
     require => Yumrepo["consul"],
   }
-
+  package { "consul-ui":
+    ensure  => 'installed',
+    require => Yumrepo["consul"],
+  }
   yumrepo { 'consul':
     ensure   => present,
     baseurl  => 'http://brain.adworks.ro/consul-repo/$releasever/',
@@ -25,11 +28,13 @@ node /^el\d+/ {
     init_style     => false,
     config_hash => {
       'bootstrap_expect'   => 3,
+	  'client_addr'      => '0.0.0.0',
+	  'ui_dir'           => '/usr/share/consul-ui',
       'data_dir'           => '/var/lib/consul',
       'datacenter'         => 'dc1',
       'log_level'          => 'INFO',
       'server'             => true,
-      'bind_addr'          => $ipaddress_eth1,
+      'bind_addr'          => $::ipaddress_eth1,
       'rejoin_after_leave' => true,
       'start_join'         => ["10.42.0.101","10.42.0.102","10.42.0.103"],
     },
@@ -60,7 +65,7 @@ node /^el\d+/ {
   elasticsearch::template { "template":
     ensure         => absent
   #  content        => '{"template":"*","settings":{"number_of_replicas":1}}',
-  #  host           => $::ipaddress,
+  #  host           => $::ipaddress_eth1,
   #  port           => 9200
   }
 
@@ -75,6 +80,18 @@ node /^el\d+/ {
   elasticsearch::plugin { 'lmenezes/elasticsearch-kopf/2.0':
     instances      => 'es01'
   }
+  
+  consul::service { 'elasticsearch':
+  checks  => [
+    {
+      script   => "curl $::ipaddress_eth1:9200 >/dev/null 2>&1",
+      interval => '10s'
+    }
+  ],
+  address	=> $::ipaddress_eth1,
+  port    => 9200,
+  tags    => ['http'],
+}
 
 }
 
