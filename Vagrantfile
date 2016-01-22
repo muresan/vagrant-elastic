@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
+#TODO
+#puppet libraryan
+#puppet vagrant installer
 Vagrant.configure(2) do |config|
 
   config.ssh.pty = true
@@ -14,18 +16,24 @@ Vagrant.configure(2) do |config|
 
   hosts.each do |host, params|
     config.vm.define host, autostart: true do |host_config|
-      host_config.vm.box = "dliappis/centos65minlibvirt"
+	  host_config.vm.box = "dliappis/centos65minlibvirt"
       host_config.vm.hostname = "#{host}"
       host_config.vm.network :private_network, ip: params['ip']
-
-      host_config.vm.provider :libvirt do |libvirt|
+      
+	  host_config.vm.provider :libvirt do |libvirt|
         libvirt.driver = 'kvm'
         libvirt.management_network_name = 'private_network'
         libvirt.management_network_address = '192.168.124.0/24'
         libvirt.memory = params['memory']
         libvirt.cpus = params['cpus']
       end
-
+	  
+      host_config.vm.provider :virtualbox do |virtualbox, override|
+	    override.vm.box  = "nrel/CentOS-6.5-x86_64"
+        virtualbox.memory = params['memory']
+        virtualbox.cpus = params['cpus']
+      end
+	  
       host_config.vm.provision :shell, inline: <<-SHELL
         sudo yum -y vim-enhanced
         sudo chkconfig iptables off
