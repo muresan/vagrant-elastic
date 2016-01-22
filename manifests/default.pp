@@ -82,16 +82,14 @@ node /^el\d+/ {
   }
   
   consul::service { 'elasticsearch':
-  checks  => [
-    {
-      script   => "curl $::ipaddress_eth1:9200 >/dev/null 2>&1",
+    checks  => [{
+      http     => "http://$::ipaddress_eth1:9200/",
       interval => '10s'
-    }
-  ],
-  address	=> $::ipaddress_eth1,
-  port    => 9200,
-  tags    => ['http'],
-}
+    }],
+    address	=> $::ipaddress_eth1,
+    port    => 9200,
+    tags    => ['http'],
+  }
 
 }
 
